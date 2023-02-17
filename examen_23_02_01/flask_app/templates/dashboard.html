@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="bg-dark text-white p-2 mb-4">
+        <div class="d-flex justify-content-between d-flex align-items-center m-2 pl-5 pr-5">
+            <h2>Welcome {{user_session.first_name}} {{user_session.last_name}}!</h2>
+            <div class="d-flex justify-content-between align-items-center w-25">
+                <a href="/created/magazine">Add magazine</a>
+                <a href="/account">Account</a>
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-outline-warning" value="Logout">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h3>All Magazines</h3>
+        <div class="border p-3 w-50 mt-4">
+            {%with messages = get_flashed_messages(category_filter=["sub"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+            {%for magazine in all_Magazines%}
+                <div class="d-flex m-2">
+                    <a class="mr-2" href="/magazine/{{magazine.id}}">{{magazine.name}} </a>
+                    <p>add by {{magazine.user.first_name}} </p> 
+                    <form action="/subscribe/{{user_session.id}}/{{magazine.id}}" method="POST">
+                        <input type="submit" class="btn-link border-0" value="Subscribe">
+                    </form>
+                </div>
+            {%endfor%}
+        </div>
+    </div>
+</body>
+</html>

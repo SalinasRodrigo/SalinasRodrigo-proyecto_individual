@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="bg-dark text-white p-2 mb-4">
+        <div class="d-flex justify-content-end m-2 pl-5 pr-5">
+            <div class="d-flex justify-content-between align-items-center w-25 pr-5 pl-5">
+                <a href="/dashboard">Dashboard</a>
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-outline-warning" value="Logout">
+                </form>
+            </div>
+        </div>
+    </div>
+    {%with messages = get_flashed_messages(category_filter=["magazine"])%}
+        {%if messages%}
+            {%for message in messages%}
+                <p class="alert alert-danger text-center">{{message}}</p>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+    <div class="container w-50">
+        <h2>Add magazine</h2>
+        <form action="/created/process" method="POST">
+            <label for="title">Title:</label>
+            <input class="form-control w-50" type="text" name="name" id="title">
+            <label for="description">Description:</label>
+            <textarea class="form-control mb-4" id="description" rows="6" name="contents"></textarea>
+            <input type="submit" class="btn btn-success" value="Submit">
+        </form>
+    </div>
+</body>
+</html>

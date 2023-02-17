@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Login & Registration</title>
+</head>
+<body>
+    <div class="bg-dark text-white p-2 mb-4">
+        <div class="d-flex justify-content-end m-2 pl-5 pr-5">
+            <div class="d-flex justify-content-between align-items-center link_bar">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/created/magazine">Add magazine</a>
+                <a href="/account">Account</a>
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-outline-warning" value="Logout">
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container centrar">
+        <div class="">
+            <div class="">
+                <h2>{{magazine.name}}</h2>
+                <p>Added by {{magazine.user.first_name}} {{magazine.user.last_name}}</p>
+            </div>
+            <div class="border p-5">
+                <div class="">
+                    <p class="">Description:</p>
+                    <p>{{magazine.contents}}</p>
+                    <p class="">Subscribers:</p>
+                    <ul>
+                    {%for sub in magazine.subs()%}
+                        <li>{{sub.first_name}} {{sub.last_name}}</li>
+                    {%endfor%}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

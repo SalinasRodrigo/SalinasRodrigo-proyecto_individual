@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>User page</title>
+</head>
+<body>
+    <div class="bg-dark text-white p-2 mb-4">
+        <div class="d-flex justify-content-end m-2 pl-5 pr-5">
+            <div class="d-flex justify-content-around d-flex align-items-center w-25 m-2">
+                <a href="/created/magazine">Add magazine</a>
+                <a href="/dashboard">Dashboard</a>
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-outline-warning" value="Logout">
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="d-flex justify-content-around">
+        <div class="col-3">
+            <h2 class="pb-4">Update User</h2>
+            {%with messages = get_flashed_messages(category_filter=["update"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+            <form action="/update/process" method="POST">
+                <label for="fname">First Name:</label>
+                <input class="form-control" id="fname" type="text" name="fname">
+                <label for="lname">Last Name:</label>
+                <input class="form-control" id="lname" type="text" name="lname">
+                <label for="email">Email:</label>
+                <input class="form-control" id="email" type="text" name="email">
+                <input type="submit" class="mt-4 btn btn-success" value="Update">
+            </form>
+        </div>
+        <div class="col-4">
+            <h2 class="pb-4">User's Magazine</h2>
+            <div class="p-3 border">
+                {%for magazine in user_magazines%}
+                <div class="d-flex">
+                    <p>{{magazine.name}}</p>
+                    <form action="/delete/process/{{magazine.id}}" method="POST">
+                        <input type="submit" class="btn-link border-0" value="Delete">
+                    </form>
+                </div>
+                <p>{{magazine.subnum()}} subscribers</p>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

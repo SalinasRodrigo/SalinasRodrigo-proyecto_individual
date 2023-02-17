@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Login & Registration</title>
+</head>
+<body>
+    
+    <div class="container p-5 d-flex justify-content-around">
+        <div class="bg-dark p-3 text-white caja_login">
+            <h2>Register</h2>
+            {%with messages = get_flashed_messages(category_filter=["registro"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+            <div class="form-group">
+                <form action="/register/process" method="POST">
+                    <label for="fname">First Name:</label>
+                    <input class="form-control" id="fname" type="text" name="fname">
+                    <label for="lname">Last Name:</label>
+                    <input class="form-control" id="lname" type="text" name="lname">
+                    <label for="email">Email:</label>
+                    <input class="form-control" id="email" type="text" name="email">
+                    <label for="password">Password:</label>
+                    <input class="form-control" id="password" type="password" name="password">
+                    <label for="confi">Confirmacion:</label>
+                    <input class="form-control" id="confi" type="password" name="confi">
+                    <input type="submit" class="btn btn-primary mt-2">
+                </form>
+            </div>
+        </div>
+        <div class="bg-dark p-3 text-white caja_login">
+            <h2>Login</h2>
+            {%with messages = get_flashed_messages(category_filter=["login"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+            <div class="form-group">
+                <form action="/login/process" method="POST">
+                    <label for="email">Email:</label>
+                    <input class="form-control" type="text" name="email">
+                    <label for="password">Password:</label>
+                    <input class="form-control" type="password" name="password">
+                    <input type="submit" class="btn btn-primary mt-2">
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
