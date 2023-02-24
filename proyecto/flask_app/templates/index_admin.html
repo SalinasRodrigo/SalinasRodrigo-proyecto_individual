@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Inicio</title>
+</head>
+<body class="h-100">
+    <header>
+        <nav class="navbar">
+            <h1>Hospital</h1>
+            <div>
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-warning" value="Cerrrar sesión">
+                </form>
+            </div>
+        </nav>
+    </header>
+    <main class="d-flex">
+        <section class="section d-flex justify-content-around">
+            <div>
+                <h2>Medico</h2>
+                <div class="form-group">
+                    <form action="/register/process" method="POST">
+                        <label for="nombre">Nombre:</label>
+                        <input class="form-control" id="nombre" type="text" name="nombre">
+                        <label for="apellido">Apellido:</label>
+                        <input class="form-control" id="apellido" type="text" name="apellido">
+                        <label for="email">Email:</label>
+                        <input class="form-control" id="email" type="text" name="email">
+                        <label for="CI">CI:</label>
+                        <input class="form-control" id="CI" type="CI" name="CI">
+                        <select class="custom-select mt-3 mb-3" id="especialidad">
+                            <option selected>Sleccione la especialidad del medico</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <input type="submit" class="btn btn-primary mt-2">
+                    </form>
+                </div>
+            </div>
+            <div>
+                <h2>Analisis</h2>
+                <div class="form-group">
+                    <form action="/register/process" method="POST">
+                        <label for="nombre">Nombre:</label>
+                        <input class="form-control" id="nombre" type="text" name="nombre">
+                        <label for="requisito">Requisito:</label>
+                        <input class="form-control" id="requisito" type="text" name="requisito">
+                        <input type="submit" class="btn btn-primary mt-2">
+                    </form>
+                </div>
+            </div>
+            <div>
+                <h2>Especialidad</h2>
+                <div class="form-group">
+                    <form action="/register/process" method="POST">
+                        <label for="nombre">Nombre:</label>
+                        <input class="form-control" id="nombre" type="text" name="nombre">
+                        <input type="submit" class="btn btn-primary mt-2">
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

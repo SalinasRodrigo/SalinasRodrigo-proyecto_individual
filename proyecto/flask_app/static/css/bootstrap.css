@@ -41,6 +41,24 @@
   box-sizing: border-box;
 }
 
+.section{
+  padding-top: 30px;
+  width: 85%;
+}
+.aside{
+  padding: 50px;
+  width: 15%;
+  background-color: #0080fe;
+  align-items: center;
+}
+.aside a{
+  margin-top: 20px;
+  width: 150px;
+}
+nav{
+  color: #F4F9F9;
+  background-color: #0080fe;
+}
 
 .centrar{
   display: flex;
@@ -48,13 +66,34 @@
   align-items: center;
 }
 
-.caja_login{
-  width: 400px;
+.caja_imagenes{
+  width: 660px;
+  height: 410px;
 }
 
-.link_bar{
-  width: 400px;
+.caja_agendas{
+  margin-top: 20px;
+  width: 800px;
+  height: 200px;
 }
+
+
+
+
+/*---cita--*/
+.medicos{
+  overflow: auto;
+  height: 350px;
+}
+
+
+/*---analisis---*/
+.analisis{
+  overflow: auto;
+  height: 350px;
+}
+
+
 
 
 
@@ -2647,7 +2686,7 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary {
   color: #007bff;
-  background-color: transparent;
+  background-color: #F4F9F9;
   background-image: none;
   border-color: #007bff;
 }

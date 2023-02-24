@@ -21,14 +21,16 @@
             {%endwith%}
             <div class="form-group">
                 <form action="/register/process" method="POST">
-                    <label for="fname">First Name:</label>
-                    <input class="form-control" id="fname" type="text" name="fname">
-                    <label for="lname">Last Name:</label>
-                    <input class="form-control" id="lname" type="text" name="lname">
+                    <label for="nombre">First Name:</label>
+                    <input class="form-control" id="nombre" type="text" name="nombre">
+                    <label for="apellido">Last Name:</label>
+                    <input class="form-control" id="apellido" type="text" name="apellido">
+                    <label for="ci">CI:</label>
+                    <input class="form-control" id="ci" type="number" name="ci">
                     <label for="email">Email:</label>
                     <input class="form-control" id="email" type="text" name="email">
-                    <label for="password">Password:</label>
-                    <input class="form-control" id="password" type="password" name="password">
+                    <label for="contraseña">Password:</label>
+                    <input class="form-control" id="contraseña" type="password" name="contraseña">
                     <label for="confi">Confirmacion:</label>
                     <input class="form-control" id="confi" type="password" name="confi">
                     <input type="submit" class="btn btn-primary mt-2">
@@ -48,8 +50,8 @@
                 <form action="/login/process" method="POST">
                     <label for="email">Email:</label>
                     <input class="form-control" type="text" name="email">
-                    <label for="password">Password:</label>
-                    <input class="form-control" type="password" name="password">
+                    <label for="contraseña">Password:</label>
+                    <input class="form-control" id="contraseña" type="password" name="contraseña">
                     <input type="submit" class="btn btn-primary mt-2">
                 </form>
             </div>

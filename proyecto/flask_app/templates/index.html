@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>Inicio</title>
+</head>
+<body class="h-100">
+    <header>
+        <nav class="navbar">
+            <h1>Hospital</h1>
+            <div>
+                {%if 'user_id' in session%}
+                <form action="/logout/process" method="POST">
+                    <input type="submit" class="btn btn-warning" value="Cerrar Sesión">
+                </form>
+                {%else%}
+                    <a href="/registro_login" class="btn btn-warning">Registrarse</a>
+                    <a href="/registro_login" class="btn btn-warning">Iniciar Sesión</a>
+                {%endif%}
+            </div>
+        </nav>
+    </header>
+    <main class="d-flex">
+        <aside class="d-flex flex-column aside">
+            <a href="/cita" class="btn btn-outline-primary">Agendar cita</a>
+            <a href="/analisis" class="btn  btn-outline-primary">Agendar análisis</a>
+            <a href="#" class="btn  btn-outline-primary">Sucursales</a>
+        </aside>
+        <section class="section">
+            <div class="centrar">
+                <div class="caja_imagenes border">
+    
+                </div>
+            </div>
+            <div class="centrar">
+                <div class="caja_agendas border">
+    
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
