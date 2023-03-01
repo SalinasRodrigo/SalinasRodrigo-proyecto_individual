@@ -46,9 +46,11 @@ def connectToMySQL(db):
     return MySQLConnection(db)
 
 if __name__=="__main__":
-    query = ("SELECT count(*) FROM thoughts "+
-                "JOIN likes ON thoughts.id = likes.thought_id "+
-                "where thoughts.id = 1 "+
-                "order by likes.id;")
-    results = connectToMySQL('thought_db').query_db(query)
-    print(results)
+    query = ("SELECT analisis.id FROM citas_analisis "+
+                "left join citas_analisis_analisis on citas_analisis_analisis.cita_analisis_id = citas_analisis.id "+
+                "left join analisis on analisis.id = citas_analisis_analisis.analisis_id "+
+                "where citas_analisis.id = 3;")
+    analisis_from_db =  connectToMySQL('proyecto_db').query_db(query)
+    for a in analisis_from_db:
+        print(a)
+    print(analisis_from_db)

@@ -1,5 +1,6 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-# from flask_app.models import magazine
+from flask_app.models import medico
+import datetime
 
 class Cita:
     def __init__(self, db_data):
@@ -11,21 +12,63 @@ class Cita:
         self.updated_at = db_data['updated_at']
 
     @classmethod
-    def save( cls , data ):
+    def save( cls , data ): 
+        ultima_cita = Cita.get_ultima_cita(data)
+        # print("------------------ULTIMA CITA----------------")
+        # if ultima_cita:
+        #     print(ultima_cita.fecha)
+        # print("---------------------------------------------")
+        fecha = datetime.datetime.now()
+        if not ultima_cita:
+            fecha = fecha.replace(hour=7, minute=0, second = 0)
+            fecha = fecha + datetime.timedelta(days=1)
+            # print("-------------------1-------------------")
+        elif ultima_cita.fecha < ((fecha + datetime.timedelta(days=1)).replace(hour=6, minute=59, second = 59)):
+            # print("-------------------2-------------------")
+            fecha = fecha.replace(hour=7, minute=0, second = 0)
+            fecha = fecha + datetime.timedelta(days=1)
+        else:
+            fecha = ultima_cita.fecha + datetime.timedelta(minutes=30)
+            if int(fecha.strftime("%H")) >= 16:
+                fecha = fecha.replace(hour=7, minute=0, second = 0)
+                fecha = fecha + datetime.timedelta(days=1)
+            if int(fecha.strftime("%H")) >= 12 and int(fecha.strftime("%H")) < 13:
+                fecha = fecha.replace(hour=13, minute=0, second = 0)
+        data['fecha'] = fecha
         query = ("INSERT INTO citas (fecha, medico_id, usuario_id, created_at , updated_at) "+
                  "VALUES (%(fecha)s, %(medico_id)s, %(usuario_id)s, NOW(),NOW());")
         result = connectToMySQL('proyecto_db').query_db(query, data)
-        print(result)
         return result
+
+    @classmethod
+    def get_ultima_cita(cls, data):
+        query = ("SELECT * FROM citas WHERE medico_id = %(medico_id)s "+
+                "ORDER BY fecha DESC;")
+        result = connectToMySQL('proyecto_db').query_db(query, data)
+        print(result)
+        if not result:
+            return result
+        return cls(result[0])
+
 
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM citas;"
-        fechas_from_db =  connectToMySQL('proyecto_db').query_db(query)
-        fechas = []
-        for user in fechas_from_db:
-            fechas.append(cls(user))
-        return fechas
+        citas_from_db =  connectToMySQL('proyecto_db').query_db(query)
+        citas = []
+        for cita in citas_from_db:
+            citas.append(cls(cita))
+        return citas
+    
+    @classmethod
+    def get_all_by_usuario(cls, data):
+        query = "SELECT * FROM citas WHERE usuario_id = %(usuario_id)s;"
+        citas_from_db =  connectToMySQL('proyecto_db').query_db(query, data)
+        citas = []
+        for cita in citas_from_db:
+            citas.append(cls(cita))
+        return citas
+
 
     @classmethod
     def get_by_id(cls,data):
@@ -48,6 +91,14 @@ class Cita:
         return connectToMySQL('proyecto_db').query_db(query,data)
 
     @classmethod
-    def destroy(cls,id):
-        query = "DELETE FROM citas WHERE id = %i;"%(id)
-        return connectToMySQL('proyecto_db').query_db(query)
+    def destroy(cls,data):
+        query = "DELETE FROM citas WHERE id = %(cita_id)s;"
+        return connectToMySQL('proyecto_db').query_db(query, data)
+    
+    def formato_fecha(self):
+        formato = str(self.fecha.strftime("%d")) + "/" + str(self.fecha.strftime("%m"))
+        return formato
+    
+    def formato_hora(self):
+        formato = str(self.fecha.strftime("%H"))+":"+str(self.fecha.strftime("%M"))
+        return formato

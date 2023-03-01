@@ -24,30 +24,17 @@
         </nav>
     </header>
     <main class="cita_main pt-5">
-        <div class="d-flex">
-            <div class="buscador pl-5 pb-5">
-                <form action="">
-                    <div class="form-group">
-                        <label for="busqueda">Buscar análisis por nombre</label>
-                        <input type="text" class="form-control mb-3" name="busqueda" id="busqueda">
-                        <input type="submit" value="Buscar">
-                    </div>
+        <h2>Cita:</h2>
+        <div class="container border p-5">
+            <p>Fecha: {{cita.formato_fecha()}}</p>
+            <p>Hora: {{cita.formato_hora()}}</p>
+            <p>Cita con {{med.nombre}} {{med.apellido}} del area de {{espe.nombre}}</p>
+            <div class="d-flex justify-content-end">
+                <form action="/cita/delete/{{cita.id}}" method="POST">
+                    <input type="submit" class="btn btn-danger mr-3" value="Cancelar cita">
                 </form>
+                <a href="/" class="btn btn-secondary mr-3">Volver</a>
             </div>
-        </div>
-        <div class=" ml-5 mb-5 border medicos w-75 h-75 p-4 ">
-            <form action="/agendar_analisis/{{user_id}}/1" method="POST" class="form-group p-3">
-                {%for analisis in all_analisis%}
-                <div class="border mb-5 p-3">
-                    <input type="checkbox" name="{{analisis.nombre}}" id="chkjs" value="{{analisis.id}}">
-                    <label for="chkjs">
-                        <p>{{analisis.nombre}}</p>
-                        <p><b>Requisitos:</b> {{analisis.requisitos}}</p>
-                    </label>
-                </div>
-                {%endfor%}
-                <input type="submit" class="mt-4 mb-4" value="Agendar">
-            </form>
         </div>
     </main>
 </body>

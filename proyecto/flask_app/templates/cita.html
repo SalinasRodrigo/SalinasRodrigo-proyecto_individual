@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{{ url_for('static', filename='javascript/scripts.js') }}"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Cita</title>
 </head>
 <body>
@@ -12,9 +16,9 @@
         <nav class="navbar">
             <h1>Hospital</h1>
             <div class="d-flex">
-                <a href="/" class="btn btn-warning mr-3">Pagina principal</a>
+                <a href="/" class="btn btn-outline-light mr-3">Pagina principal</a>
                 <form action="/logout/process" method="POST">
-                    <input type="submit" class="btn btn-warning" value="Cerrar Sesión">
+                    <input type="submit" class="btn btn-outline-light" value="Cerrar Sesión">
                 </form>
             </div>
         </nav>
@@ -36,23 +40,49 @@
                         <label for="especialidad">Buscar médico por especialidad</label>
                         <select class="custom-select mb-3" id="especialidad">
                             <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            {%for espe in all_especialidades%}
+                                <option value="{{espe.id}}">{{espe.nombre}}</option>
+                            {%endfor%}
                         </select>
                         <input type="submit" value="Buscar">
                     </div>
                 </form>
             </div>
         </div>
-        <form action="">
-            <div class=" ml-5 medicos border w-75 ">
+        <div class=" ml-5 mb-5 border medicos w-75 p-4 ">
+            {%for meds in all_medicos%}
+                <div class="form-group border p-3">
+                    <div class="d-flex justify-content-between">
+                        <p>{{meds.especialidad.nombre}} - {{meds.nombre}} {{meds.apellido}}</p>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confi">Agendar</button>
+                    </div>
+                </div>
+                <div class="modal fade" id="confi">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- cabecera del diálogo -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Login</h4>
+                                <button type="button" class="close" data-dismiss="modal">X</button>
+                            </div>
+                            <!-- cuerpo del diálogo -->
+                            <div class="modal-body">
+                                <p>Agendamiento con {{meds.nombre}} {{meds.apellido}} en el area de {{meds.especialidad.nombre}}</p>
+                            </div>
     
-            </div>
-            <div class="d-flex justify-content-end w-75 pt-3">
-                <input type="submit" value="Agendar">
-            </div>
-        </form>
+                            <!-- pie del diálogo -->
+                            <div class="modal-footer">
+                                <form action="/agendar_cita/{{user_id}}/{{meds.id}}" method="POST" >
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <input type="submit" class="btn btn-primary"  value="Confirmar">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%endfor%}
+            
+        </div>
     </main>
 </body>
 </html>

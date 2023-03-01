@@ -19,47 +19,69 @@
         </nav>
     </header>
     <main class="d-flex">
-        <section class="section d-flex justify-content-around">
-            <div>
+        <section class="section d-flex">
+            <div class="w-25 pr-5 pl-5">
                 <h2>Medico</h2>
                 <div class="form-group">
-                    <form action="/register/process" method="POST">
+                    <form action="/med/process" method="POST">
                         <label for="nombre">Nombre:</label>
                         <input class="form-control" id="nombre" type="text" name="nombre">
                         <label for="apellido">Apellido:</label>
                         <input class="form-control" id="apellido" type="text" name="apellido">
                         <label for="email">Email:</label>
                         <input class="form-control" id="email" type="text" name="email">
-                        <label for="CI">CI:</label>
-                        <input class="form-control" id="CI" type="CI" name="CI">
-                        <select class="custom-select mt-3 mb-3" id="especialidad">
+                        <label for="ci">CI:</label>
+                        <input class="form-control" id="ci" type="number" name="ci">
+                        <select class="custom-select mt-3 mb-3" id="especialidad_id" name="especialidad_id">
                             <option selected>Sleccione la especialidad del medico</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            {%if all_especialidades%}
+                                {%for especialidad in all_especialidades%}
+                                    <option value="{{especialidad.id}}">{{especialidad.nombre}}</option>
+                                {%endfor%}
+                            {%endif%}
+                        </select>
+                        <select class="custom-select mt-3 mb-3" id="hospital_id" name="hospital_id">
+                            <option selected>Sleccione un hospital del medico</option>
+                            {%if all_hospitales%}
+                                {%for hospital in all_hospitales%}
+                                    <option value="{{hospital.id}}">{{hospital.nombre}}</option>
+                                {%endfor%}
+                            {%endif%}
                         </select>
                         <input type="submit" class="btn btn-primary mt-2">
                     </form>
                 </div>
             </div>
-            <div>
-                <h2>Analisis</h2>
+            <div class="w-25 pr-5 pl-5">
+                <h2>Análisis</h2>
                 <div class="form-group">
-                    <form action="/register/process" method="POST">
-                        <label for="nombre">Nombre:</label>
-                        <input class="form-control" id="nombre" type="text" name="nombre">
-                        <label for="requisito">Requisito:</label>
-                        <input class="form-control" id="requisito" type="text" name="requisito">
+                    <form action="/analisis/process" method="POST">
+                        <label for="nombre_analisis">Nombre:</label>
+                        <input class="form-control" id="nombre_analisis" type="text" name="nombre">
+                        <label for="requisitos">Requisito:</label>
+                        <input class="form-control" id="requisitos" type="text" name="requisitos">
                         <input type="submit" class="btn btn-primary mt-2">
                     </form>
                 </div>
             </div>
-            <div>
+            <div class="w-25 pr-5 pl-5">
                 <h2>Especialidad</h2>
                 <div class="form-group">
-                    <form action="/register/process" method="POST">
+                    <form action="/espe/process" method="POST">
                         <label for="nombre">Nombre:</label>
                         <input class="form-control" id="nombre" type="text" name="nombre">
+                        <input type="submit" class="btn btn-primary mt-2">
+                    </form>
+                </div>
+            </div>
+            <div class="w-25 pr-5 pl-5">
+                <h2>Hospital</h2>
+                <div class="form-group">
+                    <form action="/hosp/process" method="POST">
+                        <label for="nombre">Nombre:</label>
+                        <input class="form-control" id="nombre" type="text" name="nombre">
+                        <label for="direccion">Dirección:</label>
+                        <input class="form-control" id="direccion" type="text" name="direccion">
                         <input type="submit" class="btn btn-primary mt-2">
                     </form>
                 </div>

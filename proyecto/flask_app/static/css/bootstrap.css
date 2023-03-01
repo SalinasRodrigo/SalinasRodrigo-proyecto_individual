@@ -41,6 +41,43 @@
   box-sizing: border-box;
 }
 
+#cerrar{
+  color: white;
+  background: none;
+  border: none ;
+  font-size: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* .registro{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  height: 80%;
+  width: 30%;
+  background-color: white;
+}
+
+.inicio{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  height: 40%;
+  width: 30%;
+  background-color: white;
+} */
+
 .section{
   padding-top: 30px;
   width: 85%;
@@ -75,6 +112,7 @@ nav{
   margin-top: 20px;
   width: 800px;
   height: 200px;
+  overflow: auto;
 }
 
 
@@ -83,15 +121,11 @@ nav{
 /*---cita--*/
 .medicos{
   overflow: auto;
-  height: 350px;
 }
 
 
 /*---analisis---*/
-.analisis{
-  overflow: auto;
-  height: 350px;
-}
+
 
 
 

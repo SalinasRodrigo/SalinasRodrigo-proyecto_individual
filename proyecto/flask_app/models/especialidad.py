@@ -20,15 +20,15 @@ class Especialidad:
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM especialidades;"
-        emails_from_db =  connectToMySQL('proyecto_db').query_db(query)
-        emails = []
-        for user in emails_from_db:
-            emails.append(cls(user))
-        return emails
+        especialidades_from_db =  connectToMySQL('proyecto_db').query_db(query)
+        especialidades = []
+        for espe in especialidades_from_db:
+            especialidades.append(cls(espe))
+        return especialidades
 
     @classmethod
     def get_by_id(cls,data):
-        query = "SELECT * FROM especialidades WHERE id = %(id)s;"
+        query = "SELECT * FROM especialidades WHERE id = %(especialidad_id)s;"
         result = connectToMySQL('proyecto_db').query_db(query, data)
 
         return cls(result[0])

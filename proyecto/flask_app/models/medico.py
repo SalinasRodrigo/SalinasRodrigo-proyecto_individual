@@ -2,7 +2,7 @@ from flask_app.config.mysqlconnection import connectToMySQL
 import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 from flask import flash
-# from flask_app.models import magazine
+from flask_app.models import especialidad
 
 class Medico:
     def __init__(self, db_data):
@@ -14,11 +14,12 @@ class Medico:
         self.especialidad_id = db_data['especialidad_id']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
+        self.especialidad = None
 
     @classmethod
     def save( cls , data ):
-        query = ("INSERT INTO medicos ( nombre, apellido, email, especialidad_id, ci, created_at , updated_at) "+
-                 "VALUES (%(nombre)s, %(apellido)s, %(email)s, %(especialidad_id)s, %(ci)s, NOW(),NOW());")
+        query = ("INSERT INTO medicos ( nombre, apellido, email, especialidad_id, hospital_id, ci, created_at , updated_at) "+
+                 "VALUES (%(nombre)s, %(apellido)s, %(email)s, %(especialidad_id)s, %(hospital_id)s, %(ci)s, NOW(),NOW());")
         result = connectToMySQL('proyecto_db').query_db(query, data)
         print(result)
         return result
@@ -26,17 +27,40 @@ class Medico:
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM medicos;"
-        emails_from_db =  connectToMySQL('proyecto_db').query_db(query)
-        emails = []
-        for user in emails_from_db:
-            emails.append(cls(user))
-        return emails
+        meds_from_db =  connectToMySQL('proyecto_db').query_db(query)
+        meds = []
+        for med in meds_from_db:
+            meds.append(cls(med))
+        return meds
+    
+    @classmethod
+    def get_all_medicos_especialidad(cls):
+        query = ("SELECT * FROM medicos " +
+                "left join especialidades on especialidades.id = medicos.especialidad_id "+
+                "ORDER BY especialidades.nombre ASC;")
+        meds_from_db =  connectToMySQL('proyecto_db').query_db(query)
+        meds = []
+        if not meds_from_db:
+            return meds_from_db
+        for row_db in meds_from_db:
+            especialidad_data = {
+                "id" : row_db["especialidades.id"],
+                "nombre" : row_db["especialidades.nombre"],
+                "created_at" : row_db["especialidades.created_at"],
+                "updated_at" : row_db["especialidades.updated_at"]
+            }
+
+            med = cls(row_db)
+            med.especialidad = especialidad.Especialidad(especialidad_data)
+            meds.append(med)
+        return meds
 
     @classmethod
     def get_by_id(cls,data):
-        query = "SELECT * FROM medicos WHERE id = %(id)s;"
+        query = "SELECT * FROM medicos WHERE id = %(medico_id)s;"
         result = connectToMySQL('proyecto_db').query_db(query, data)
-
+        if not result:
+            return result
         return cls(result[0])
 
     @classmethod

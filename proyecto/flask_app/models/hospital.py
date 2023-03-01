@@ -12,7 +12,7 @@ class Hospital:
 
     @classmethod
     def save( cls , data ):
-        query = ("INSERT INTO hospitles ( nombre, direccion, created_at , updated_at) "+
+        query = ("INSERT INTO hospitales ( nombre, direccion, created_at , updated_at) "+
                  "VALUES (%(nombre)s, %(direccion)s, NOW(),NOW());")
         result = connectToMySQL('proyecto_db').query_db(query, data)
         print(result)
@@ -20,7 +20,7 @@ class Hospital:
 
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM hospitles;"
+        query = "SELECT * FROM hospitales;"
         emails_from_db =  connectToMySQL('proyecto_db').query_db(query)
         emails = []
         for user in emails_from_db:
@@ -29,19 +29,19 @@ class Hospital:
 
     @classmethod
     def get_by_id(cls,data):
-        query = "SELECT * FROM hospitles WHERE id = %(id)s;"
+        query = "SELECT * FROM hospitales WHERE id = %(id)s;"
         result = connectToMySQL('proyecto_db').query_db(query, data)
 
         return cls(result[0])
 
     @classmethod
     def update(cls,data):
-        query = "UPDATE hospitles SET nombre=%(nombre)s, direccion=%(direccion)s, updated_at = NOW() WHERE id = %(id)s;"
+        query = "UPDATE hospitales SET nombre=%(nombre)s, direccion=%(direccion)s, updated_at = NOW() WHERE id = %(id)s;"
         return connectToMySQL('proyecto_db').query_db(query,data)
 
     @classmethod
     def destroy(cls,id):
-        query = "DELETE FROM hospitles WHERE id = %i;"%(id)
+        query = "DELETE FROM hospitales WHERE id = %i;"%(id)
         return connectToMySQL('proyecto_db').query_db(query)
 
     @staticmethod

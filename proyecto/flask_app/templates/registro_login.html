@@ -37,25 +37,6 @@
                 </form>
             </div>
         </div>
-        <div class="bg-dark p-3 text-white caja_login">
-            <h2>Login</h2>
-            {%with messages = get_flashed_messages(category_filter=["login"])%}
-                {%if messages%}
-                    {%for message in messages%}
-                        <p class="alert alert-danger text-center">{{message}}</p>
-                    {%endfor%}
-                {%endif%}
-            {%endwith%}
-            <div class="form-group">
-                <form action="/login/process" method="POST">
-                    <label for="email">Email:</label>
-                    <input class="form-control" type="text" name="email">
-                    <label for="contraseña">Password:</label>
-                    <input class="form-control" id="contraseña" type="password" name="contraseña">
-                    <input type="submit" class="btn btn-primary mt-2">
-                </form>
-            </div>
-        </div>
         
     </div>
 </body>

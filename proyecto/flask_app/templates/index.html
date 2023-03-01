@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="{{ url_for('static', filename='javascript/scripts.js') }}"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Inicio</title>
 </head>
 <body class="h-100">
@@ -14,22 +18,36 @@
             <div>
                 {%if 'user_id' in session%}
                 <form action="/logout/process" method="POST">
-                    <input type="submit" class="btn btn-warning" value="Cerrar Sesión">
+                    <input type="submit" class="btn btn-outline-light" value="Cerrar Sesión">
                 </form>
                 {%else%}
-                    <a href="/registro_login" class="btn btn-warning">Registrarse</a>
-                    <a href="/registro_login" class="btn btn-warning">Iniciar Sesión</a>
+                    <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#registro">Registrarse</button>
+                    <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#inicio">Iniciar Sesión</button>
                 {%endif%}
             </div>
         </nav>
     </header>
-    <main class="d-flex">
+    <main class="d-flex ">
         <aside class="d-flex flex-column aside">
             <a href="/cita" class="btn btn-outline-primary">Agendar cita</a>
             <a href="/analisis" class="btn  btn-outline-primary">Agendar análisis</a>
             <a href="#" class="btn  btn-outline-primary">Sucursales</a>
         </aside>
         <section class="section">
+            {%with messages = get_flashed_messages(category_filter=["registro"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
+            {%with messages = get_flashed_messages(category_filter=["login"])%}
+                {%if messages%}
+                    {%for message in messages%}
+                        <p class="alert alert-danger text-center">{{message}}</p>
+                    {%endfor%}
+                {%endif%}
+            {%endwith%}
             <div class="centrar">
                 <div class="caja_imagenes border">
     
@@ -37,10 +55,88 @@
             </div>
             <div class="centrar">
                 <div class="caja_agendas border">
-    
+                    {%if all_citas%}
+                        {%for cita in all_citas%}
+                            <div class="d-flex">
+                                <p class="mr-2">Cita para el {{cita.formato_fecha()}} a las {{cita.formato_hora()}}</p>
+                                <a href="/cita_data/{{cita.id}}">mas info...</a>
+                            </div>
+                            
+                        {%endfor%}
+                    {%endif%}
+                    {%if all_analisis%}
+                        {%for analisis in all_analisis%}
+                            <div class="d-flex">
+                                <p class="mr-2">Cita de analisis para el {{analisis.formato_fecha()}} a las {{analisis.formato_hora()}}</p>
+                                <a href="/analisis_data/{{analisis.id}}">mas info...</a>
+                            </div>
+                        {%endfor%}
+                    {%endif%}
                 </div>
             </div>
         </section>
+            <div class="modal fade" id="inicio">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- cabecera del diálogo -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Login</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+                        <!-- cuerpo del diálogo -->
+                        <form action="/login/process" method="POST">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input class="form-control" type="text" name="email">
+                                    <label for="contraseña">Password:</label>
+                                    <input class="form-control" id="contraseña" type="password" name="contraseña">
+                                </div>
+                            </div>
+                        
+                            <!-- pie del diálogo -->
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary mt-2">    
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="registro">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- cabecera del diálogo -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Register</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+                        <!-- cuerpo del diálogo -->
+                        <form action="/register/process" method="POST">
+                            <div class="modal-body">
+                                
+                                <div class="form-group">    
+                                    <label for="nombre">First Name:</label>
+                                    <input class="form-control" id="nombre" type="text" name="nombre">
+                                    <label for="apellido">Last Name:</label>
+                                    <input class="form-control" id="apellido" type="text" name="apellido">
+                                    <label for="ci">CI:</label>
+                                    <input class="form-control" id="ci" type="number" name="ci">
+                                    <label for="email">Email:</label>
+                                    <input class="form-control" id="email" type="text" name="email">
+                                    <label for="contraseña">Password:</label>
+                                    <input class="form-control" id="contraseña" type="password" name="contraseña">
+                                    <label for="confi">Confirmacion:</label>
+                                    <input class="form-control" id="confi" type="password" name="confi">  
+                                </div>
+                            </div>
+                            <!-- pie del diálogo -->
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary mt-2">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </main>
 </body>
 </html>
