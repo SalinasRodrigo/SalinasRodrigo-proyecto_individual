@@ -26,22 +26,17 @@
     <main class="cita_main pt-5">
         <div class="d-flex">
             <div class="buscador pl-5 pb-5">
-                <form action="">
-                    <div class="form-group">
-                        <label for="busqueda">Buscar análisis por nombre</label>
-                        <input type="text" class="form-control mb-3" name="busqueda" id="busqueda">
-                        <input type="submit" value="Buscar">
-                    </div>
-                </form>
+                <label for="busqueda_analisis">Buscar análisis por nombre</label>
+                <input type="text" class="form-control mb-3" name="busqueda" id="busqueda_analisis">
             </div>
         </div>
-        <div class=" ml-5 mb-5 border medicos w-75 h-75 p-4 ">
+        <div class=" ml-5 mb-5 border analisis w-75 h-75 p-4 ">
             <form action="/agendar_analisis/{{user_id}}/1" method="POST" class="form-group p-3">
                 {%for analisis in all_analisis%}
-                <div class="border mb-5 p-3">
+                <div class="border un_analisis mb-5 p-3">
                     <input type="checkbox" name="{{analisis.nombre}}" id="chkjs" value="{{analisis.id}}">
                     <label for="chkjs">
-                        <p>{{analisis.nombre}}</p>
+                        <p class="analisis_nombre">{{analisis.nombre}}</p>
                         <p><b>Requisitos:</b> {{analisis.requisitos}}</p>
                     </label>
                 </div>

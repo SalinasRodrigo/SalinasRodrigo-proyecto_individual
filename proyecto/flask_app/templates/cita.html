@@ -26,38 +26,19 @@
     <main class="cita_main pt-5">
         <div class="d-flex">
             <div class="buscador pl-5 pb-5">
-                <form action="">
-                    <div class="form-group">
-                        <label for="busqueda">Buscar médico por nombre</label>
-                        <input type="text" class="form-control mb-3" name="busqueda" id="busqueda">
-                        <input type="submit" value="Buscar">
-                    </div>
-                </form>
-            </div>
-            <div class="opciones pl-5 pr-5">
-                <form action="">
-                    <div class="form-group">
-                        <label for="especialidad">Buscar médico por especialidad</label>
-                        <select class="custom-select mb-3" id="especialidad">
-                            <option selected>Open this select menu</option>
-                            {%for espe in all_especialidades%}
-                                <option value="{{espe.id}}">{{espe.nombre}}</option>
-                            {%endfor%}
-                        </select>
-                        <input type="submit" value="Buscar">
-                    </div>
-                </form>
+                <label for="busqueda_medico">Buscar médico por nombre o especialidad</label>
+                <input type="text" class="form-control mb-3" name="busqueda" id="busqueda_medico">
             </div>
         </div>
         <div class=" ml-5 mb-5 border medicos w-75 p-4 ">
             {%for meds in all_medicos%}
-                <div class="form-group border p-3">
+                <div class="medico form-group border p-3">
                     <div class="d-flex justify-content-between">
                         <p>{{meds.especialidad.nombre}} - {{meds.nombre}} {{meds.apellido}}</p>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confi">Agendar</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confi_{{meds.id}}">Agendar</button>
                     </div>
                 </div>
-                <div class="modal fade" id="confi">
+                <div class="modal fade" id="confi_{{meds.id}}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <!-- cabecera del diálogo -->

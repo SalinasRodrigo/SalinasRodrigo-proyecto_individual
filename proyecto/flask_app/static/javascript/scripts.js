@@ -1,14 +1,32 @@
 
 $(document).ready(function(){
-    $('#chkjs').change(function () {
-        if (this.checked)
-            checkDetails(this);
+    $("#busqueda_medico").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        console.log(value)
+        $(".medicos .medico").each(function() {
+            var a = $(this).find("p").text();
+            if ($(this).text().toLowerCase().search(value) > -1){
+                $(this).show();
+            }
+            else{
+                $(this).hide();
+            }
+        });
     });
 
-    function checkDetails(ele) {
-        console.log('Value: ' + ele.value + ' ID: ' + ele.id);
-    }
-    
+    $("#busqueda_analisis").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        console.log(value)
+        $(".analisis .un_analisis").each(function() {
+            var a = $(this).find("p .analisis_nombre").text();
+            if ($(this).text().toLowerCase().search(value) > -1){
+                $(this).show();
+            }
+            else{
+                $(this).hide();
+            }
+        });
+    });
 });
 
 
