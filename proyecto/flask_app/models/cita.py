@@ -13,18 +13,15 @@ class Cita:
 
     @classmethod
     def save( cls , data ): 
+        #creación de una fecha para la cita
         ultima_cita = Cita.get_ultima_cita(data)
-        # print("------------------ULTIMA CITA----------------")
-        # if ultima_cita:
-        #     print(ultima_cita.fecha)
-        # print("---------------------------------------------")
         fecha = datetime.datetime.now()
         if not ultima_cita:
             fecha = fecha.replace(hour=7, minute=0, second = 0)
             fecha = fecha + datetime.timedelta(days=1)
-            # print("-------------------1-------------------")
+
         elif ultima_cita.fecha < ((fecha + datetime.timedelta(days=1)).replace(hour=6, minute=59, second = 59)):
-            # print("-------------------2-------------------")
+
             fecha = fecha.replace(hour=7, minute=0, second = 0)
             fecha = fecha + datetime.timedelta(days=1)
         else:
@@ -94,6 +91,19 @@ class Cita:
     def destroy(cls,data):
         query = "DELETE FROM citas WHERE id = %(cita_id)s;"
         return connectToMySQL('proyecto_db').query_db(query, data)
+    
+    @classmethod
+    def validar(cls,data):
+        #validación para eliminar la citas que ya pasaron
+        citas = Cita.get_all_by_usuario(data)
+        fecha = datetime.datetime.now()
+        for cita in citas:
+            if fecha>cita.fecha:
+                data_2 = {
+                    "cita_id": cita.id
+                }
+                Cita.destroy(data_2)
+        return
     
     def formato_fecha(self):
         formato = str(self.fecha.strftime("%d")) + "/" + str(self.fecha.strftime("%m"))

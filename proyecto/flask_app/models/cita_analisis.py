@@ -1,5 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-# from flask_app.models import magazine
+from flask_app.models import cita_analisis_analisis
 import datetime
 
 class Cita_analisis:
@@ -13,21 +13,16 @@ class Cita_analisis:
 
     @classmethod
     def save( cls , data ):
-
+        #creación de una fecha para la cita
         ultima_cita = Cita_analisis.get_ultima_cita(data)
-
-        # print("------------------ULTIMA CITA----------------")
-        # if ultima_cita:
-        #     print(ultima_cita.fecha)
-        # print("---------------------------------------------")
 
         fecha = datetime.datetime.now()
         if not ultima_cita:
             fecha = fecha.replace(hour=7, minute=0, second = 0)
             fecha = fecha + datetime.timedelta(days=1)
-            # print("-------------------1-------------------")
+
         elif ultima_cita.fecha < ((fecha + datetime.timedelta(days=1)).replace(hour=6, minute=59, second = 59)):
-            # print("-------------------2-------------------")
+
             fecha = fecha.replace(hour=7, minute=0, second = 0)
             fecha = fecha + datetime.timedelta(days=1)
         else:
@@ -97,6 +92,20 @@ class Cita_analisis:
     def destroy(cls,data):
         query = "DELETE FROM citas_analisis WHERE id = %(cita_analisis_id)s;"
         return connectToMySQL('proyecto_db').query_db(query,data)
+    
+    @classmethod
+    def validar(cls,data):
+        #validación para eliminar la citas que ya pasaron
+        citas = Cita_analisis.get_all_by_usuario(data)
+        fecha = datetime.datetime.now()
+        for cita in citas:
+            if fecha>cita.fecha:
+                data_2 = {
+                    "cita_analisis_id": cita.id
+                }
+                cita_analisis_analisis.Cita_analisis_analisis.destroy_by_cita_analisis_id(data_2)
+                Cita_analisis.destroy(data_2)
+        return 
     
     def formato_fecha(self):
         formato = str(self.fecha.strftime("%d")) + "/" + str(self.fecha.strftime("%m"))

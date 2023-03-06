@@ -62,25 +62,25 @@ class Usuario:
     def validacion_registro(data):
         is_true = True
         if  len(data['nombre'])<3 or data['nombre']=="":
-            flash('The first name must have at least 3 characters.', 'registro')
+            flash('El nombre debe tener al menos 3 caracteres.', 'registro')
             is_true = False
         if len(data['apellido'])<3 or data['apellido']=="":
-            flash('The last name must have at least 3 characters.', 'registro')
+            flash('El apellido debe tener al menos 3 caracteres.', 'registro')
             is_true = False
         if (not EMAIL_REGEX.match(data['email']) or data['email']==""):
-            flash('Wrong email format.', 'registro')
+            flash('Formato de email incorrecto.', 'registro')
             is_true = False
         if  Usuario.get_by_email(data):
-            flash('There is already a registered user with that email.', 'registro')
+            flash('Ya existe una cuenta con este email', 'registro')
             is_true = False
         if data['ci']=="":
-            flash('The ci must have at least 8 characters.', 'registro')
+            flash('El usuario debe tener un número de CI.', 'registro')
             is_true = False
         if len(data['contraseña'])<8 or data['contraseña']=="":
-            flash('The contraseña must have at least 8 characters.', 'registro')
+            flash('La contraseña debe tener al menos 8 caracteres.', 'registro')
             is_true = False
         if not data['contraseña'] == data['confi']:
-            flash ('The contraseña do not match.', 'registro')
+            flash ('Las contraseñas no coinciden.', 'registro')
             is_true = False
         return is_true
 

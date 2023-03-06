@@ -19,10 +19,12 @@ def index():
         data = {
             "usuario_id": session['user_id']
         }
+        Cita.validar(data)
+        Cita_analisis.validar(data)
         return render_template("index.html", all_citas = Cita.get_all_by_usuario(data),
                                 all_analisis = Cita_analisis.get_all_by_usuario(data))
-    
-    return  render_template("index.html", all_citas = False)
+
+    return  render_template("index.html")
 
 @app.route('/admin')
 def index_admin():

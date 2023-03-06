@@ -49,7 +49,6 @@ class Medico:
                 "created_at" : row_db["especialidades.created_at"],
                 "updated_at" : row_db["especialidades.updated_at"]
             }
-
             med = cls(row_db)
             med.especialidad = especialidad.Especialidad(especialidad_data)
             meds.append(med)

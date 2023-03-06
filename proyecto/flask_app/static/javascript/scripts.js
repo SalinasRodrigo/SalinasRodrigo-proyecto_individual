@@ -16,10 +16,10 @@ $(document).ready(function(){
 
     $("#busqueda_analisis").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        console.log(value)
         $(".analisis .un_analisis").each(function() {
-            var a = $(this).find("p .analisis_nombre").text();
-            if ($(this).text().toLowerCase().search(value) > -1){
+            var a = $(this).find(".analisis_nombre").text();
+            console.log(a);
+            if (a.toLowerCase().search(value) > -1){
                 $(this).show();
             }
             else{

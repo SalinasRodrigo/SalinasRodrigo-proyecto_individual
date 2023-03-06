@@ -13,10 +13,10 @@
 </head>
 <body>
     <header>
-        <nav class="navbar">
+        <nav class="navbar pl-4 pr-4">
             <h1>Hospital</h1>
             <div class="d-flex">
-                <a href="/" class="btn btn-outline-light mr-3">Pagina principal</a>
+                <a href="/" class="btn btn-outline-light mr-3">Página principal</a>
                 <form action="/logout/process" method="POST">
                     <input type="submit" class="btn btn-outline-light" value="Cerrar Sesión">
                 </form>
@@ -24,45 +24,48 @@
         </nav>
     </header>
     <main class="cita_main pt-5">
-        <div class="d-flex">
-            <div class="buscador pl-5 pb-5">
-                <label for="busqueda_medico">Buscar médico por nombre o especialidad</label>
-                <input type="text" class="form-control mb-3" name="busqueda" id="busqueda_medico">
-            </div>
-        </div>
-        <div class=" ml-5 mb-5 border medicos w-75 p-4 ">
-            {%for meds in all_medicos%}
-                <div class="medico form-group border p-3">
-                    <div class="d-flex justify-content-between">
-                        <p>{{meds.especialidad.nombre}} - {{meds.nombre}} {{meds.apellido}}</p>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confi_{{meds.id}}">Agendar</button>
-                    </div>
+        <div class="container"> 
+            <h2 class="mb-3">Agendar cita médica</h2> 
+            <div class="d-flex">
+                <div class="buscador pl-5 mb-3">
+                    <label for="busqueda_medico">Buscar médico por nombre o especialidad</label>
+                    <input type="text" class="form-control" name="busqueda" id="busqueda_medico">
                 </div>
-                <div class="modal fade" id="confi_{{meds.id}}">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <!-- cabecera del diálogo -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Login</h4>
-                                <button type="button" class="close" data-dismiss="modal">X</button>
-                            </div>
-                            <!-- cuerpo del diálogo -->
-                            <div class="modal-body">
-                                <p>Agendamiento con {{meds.nombre}} {{meds.apellido}} en el area de {{meds.especialidad.nombre}}</p>
-                            </div>
-    
-                            <!-- pie del diálogo -->
-                            <div class="modal-footer">
-                                <form action="/agendar_cita/{{user_id}}/{{meds.id}}" method="POST" >
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <input type="submit" class="btn btn-primary"  value="Confirmar">
-                                </form>
+            </div>
+            <div class=" ml-5 mb-5 border medicos w-75 pt-4 pl-4 pr-4 pb-2 ">
+                {%for meds in all_medicos%}
+                    <div class="medico form-group p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="mb-0">{{meds.especialidad.nombre}} - {{meds.nombre}} {{meds.apellido}}</p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confi_{{meds.id}}">Agendar</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="confi_{{meds.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- cabecera del diálogo -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Confirmar agendamiento</h4>
+                                    <button type="button" class="close" data-dismiss="modal">X</button>
+                                </div>
+                                <!-- cuerpo del diálogo -->
+                                <div class="modal-body">
+                                    <p>Cita medica con {{meds.nombre}} {{meds.apellido}} para el area de {{meds.especialidad.nombre}}</p>
+                                </div>
+        
+                                <!-- pie del diálogo -->
+                                <div class="modal-footer">
+                                    <form action="/agendar_cita/{{user_id}}/{{meds.id}}" method="POST" >
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <input type="submit" class="btn btn-primary"  value="Confirmar">
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {%endfor%}
-            
+                {%endfor%}
+                
+            </div>
         </div>
     </main>
 </body>
